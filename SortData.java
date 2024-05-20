@@ -1,3 +1,4 @@
+//imports
 import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
@@ -5,10 +6,10 @@ import java.util.ArrayList;
 public class SortData {
 
     public static void sortData(List<String[]> data, int columnIndex) {
-        // Skip the header row for sorting
+        //skip the header row
         List<String[]> dataToSort = data.subList(1, data.size());
 
-        // Determine the type of data in the column and sort accordingly
+        //compare the data depending on the column type
         if (isIntegerColumn(data, columnIndex)) {
             dataToSort.sort(Comparator.comparing(row -> Integer.parseInt(row[columnIndex])));
         } else if (isDoubleColumn(data, columnIndex)) {
@@ -17,16 +18,17 @@ public class SortData {
             dataToSort.sort(Comparator.comparing(row -> row[columnIndex]));
         }
 
-        // Reconstruct the sorted data list including the header row
+        //create a new list to store the sorted data
         List<String[]> sortedData = new ArrayList<>(dataToSort.size() + 1);
-        sortedData.add(data.get(0)); // Add the header row
-        sortedData.addAll(dataToSort); // Add the sorted rows
+        sortedData.add(data.get(0));
+        sortedData.addAll(dataToSort); 
 
-        // Update the original data list with the sorted data
+        //clear the original data and add the sorted data
         data.clear();
         data.addAll(sortedData);
     }
 
+    //check if the column is an integer column
     private static boolean isIntegerColumn(List<String[]> data, int columnIndex) {
         try {
             Integer.parseInt(data.get(1)[columnIndex]);
@@ -36,6 +38,7 @@ public class SortData {
         }
     }
 
+    //check if the column is a double column
     private static boolean isDoubleColumn(List<String[]> data, int columnIndex) {
         try {
             Double.parseDouble(data.get(1)[columnIndex]);
