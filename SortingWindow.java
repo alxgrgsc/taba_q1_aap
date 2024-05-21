@@ -1,9 +1,12 @@
+//imports 
 import java.awt.*;
 import java.util.Comparator;
 import java.util.List;
 import javax.swing.*;
 
+//sorting window class
 public class SortingWindow extends JFrame {
+    //vars
     private String[] columnNames;
     private List<Employee> employees;
     private JButton sortButton;
@@ -13,6 +16,7 @@ public class SortingWindow extends JFrame {
     private JComboBox<String> columnComboBox;
     private int startIndex = 0;
 
+    //constructor
     public SortingWindow(String[] columnNames, List<Employee> employees) {
         super("Sorting Window");
         this.columnNames = columnNames;
@@ -62,6 +66,7 @@ public class SortingWindow extends JFrame {
         setVisible(true);
     }
 
+    //sort data method
     private void sortData() {
         int columnIndex = columnComboBox.getSelectedIndex();
         Comparator<Employee> comparator = Employee.getComparatorByColumn(columnIndex);
@@ -71,6 +76,7 @@ public class SortingWindow extends JFrame {
         displayEntries();
     }
 
+    //display headers method
     private void displayHeaders() {
         StringBuilder headerBuilder = new StringBuilder();
         for (String columnName : columnNames) {
@@ -80,6 +86,7 @@ public class SortingWindow extends JFrame {
         displayArea.setText(headerBuilder.toString());
     }
     
+    //display entries method
     private void displayEntries() {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = startIndex; i < Math.min(startIndex + 20, employees.size()); i++) {
@@ -89,25 +96,31 @@ public class SortingWindow extends JFrame {
         displayArea.append(stringBuilder.toString());
     }
 
+    //show previous entries method
     private void showPreviousEntries() {
         if (startIndex >= 20) {
             startIndex -= 20;
+            displayHeaders(); // Add this line
             displayEntries();
         }
     }
-
+    
+    //show next entries method
     private void showNextEntries() {
         if (startIndex + 20 < employees.size()) {
             startIndex += 20;
+            displayHeaders(); // Add this line
             displayEntries();
         }
     }
 
+    //calculate wage sum method
     private void calculateWageSum() {
         double sum = EvenIndexedSum.sumEvenIndexedWage(employees);
         JOptionPane.showMessageDialog(this, "Sum of every even-indexed row of the wage column: " + String.format("%.1f", sum));
     }
 
+    //calculate minimum value method
     private void calculateMinValue() {
         double min = FindMinValue.findMinWage(employees);
         JOptionPane.showMessageDialog(this, "Minimum value in the wage column: " + min);

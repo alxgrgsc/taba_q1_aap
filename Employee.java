@@ -1,6 +1,8 @@
+//imports 
 import java.util.Comparator;
 import java.util.List;
 
+//employee class 
 public class Employee implements Comparable<Employee> {
     private static int idCounter = 0;
     private int emp_no;
@@ -10,10 +12,11 @@ public class Employee implements Comparable<Employee> {
     private double wage;
     private double project_completion_rate;
 
-    // Constructor
-    public Employee(Integer emp_no, String first_name, String second_name, String department, double wage, double project_completion_rate) {
-
-
+    //constructor 
+    public Employee(Integer emp_no, String first_name, String second_name, String department, double wage,
+            double project_completion_rate) {
+                
+        //vars 
         this.emp_no = ++idCounter;
         this.first_name = first_name;
         this.second_name = second_name;
@@ -22,12 +25,12 @@ public class Employee implements Comparable<Employee> {
         this.project_completion_rate = project_completion_rate;
     }
 
-    // Method to add employee to list
+    //method to add employee
     public static void addEmployee(List<Employee> employees, Employee newEmployee) {
         employees.add(newEmployee);
     }
 
-    // Getters
+    //getters 
     public int getEmpNo() {
         return emp_no;
     }
@@ -52,13 +55,25 @@ public class Employee implements Comparable<Employee> {
         return project_completion_rate;
     }
 
-    // Implement Comparable interface
+    //comparable method
     @Override
     public int compareTo(Employee other) {
         return Integer.compare(this.emp_no, other.emp_no);
     }
 
-    // Static comparator methods for sorting
+    //static comparator methods for sorting
+    public static Comparator<Employee> getEmpNoComparator() {
+        return Comparator.comparing(Employee::getEmpNo);
+    }
+
+    public static Comparator<Employee> getSecondNameComparator() {
+        return Comparator.comparing(Employee::getSecondName);
+    }
+
+    public static Comparator<Employee> getDepartmentComparator() {
+        return Comparator.comparing(Employee::getDepartment);
+    }
+
     public static Comparator<Employee> getFirstNameComparator() {
         return Comparator.comparing(Employee::getFirstName);
     }
@@ -71,16 +86,17 @@ public class Employee implements Comparable<Employee> {
         return Comparator.comparing(Employee::getProjectCompletionRate);
     }
 
+    //method to get comparator by column
     public static Comparator<Employee> getComparatorByColumn(int column) {
         switch (column) {
             case 0:
-                return Comparator.comparing(Employee::getEmpNo);
+                return getEmpNoComparator();
             case 1:
                 return getFirstNameComparator();
             case 2:
-                return Comparator.comparing(Employee::getSecondName);
+                return getSecondNameComparator();
             case 3:
-                return Comparator.comparing(Employee::getDepartment);
+                return getDepartmentComparator();
             case 4:
                 return getWageComparator();
             case 5:
@@ -91,17 +107,18 @@ public class Employee implements Comparable<Employee> {
     }
 
     @Override
+    //to string method
     public String toString() {
         return emp_no +
-            ",  '" + first_name + '\'' +
-            ",  '" + second_name + '\'' +
-            ",  '" + department + '\'' +
-            ",  " + wage +
-            ",  " + project_completion_rate;
+                ",  '" + first_name + '\'' +
+                ",  '" + second_name + '\'' +
+                ",  '" + department + '\'' +
+                ",  " + wage +
+                ",  " + project_completion_rate;
     }
 }
 
-// Exceptions
+//exceptions 
 class InvalidFirstNameException extends Exception {
     public InvalidFirstNameException() {
         super("Employee first name cannot be empty and cannot consist of only digits. Please correct this.");
@@ -137,5 +154,3 @@ class InvalidProjectCompletionRateException extends Exception {
         super("Employee project completion rate must be between 0 and 100. Please correct this.");
     }
 }
-
-

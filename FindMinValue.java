@@ -1,10 +1,12 @@
+//imports 
 import java.util.*;
 
+//find min value class
 class FindMinValue {
     static double findMinWage(List<Employee> employees) {
-        // Initialize the minimum wage to a large number
-        double minWage = Double.MAX_VALUE;
-        // Iterate and find the min wage in odd elements
+        //initialize the min wage to a big number 
+        double minWage = 1_000_000;
+        //iterate through odd indexes(use even numbers as first entry contains column names) and find the minimum wage
         for (int i = 0; i < employees.size(); i += 2) {
             double wage = employees.get(i).getWage();
             if (wage < minWage) {
