@@ -5,22 +5,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-//
 public class CSVReader {
-    private List<String[]> data = new ArrayList<>(); // Array to hold the CSV data
-    //method to read a csv file 
-    public void readCSV(String filePath) throws IOException {
+    private List<Employee> employees = new ArrayList<>(); // List to hold the Employee objects
+
+    public void readCSV(String filePath) throws IOException{
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         String line;
-        //read the file line by line 
+        // Skip the header
+        reader.readLine();
+        // Read the file line by line
         while ((line = reader.readLine()) != null) {
-            String[] row = line.split(","); 
-            data.add(row); 
+            String[] row = line.split(",");
+            // Create a new Employee object from the CSV row
+            Employee employee = new Employee(Integer.parseInt(row[0]), row[1], row[2], row[3], Double.parseDouble(row[4]), Double.parseDouble(row[5]));
+            // Add the Employee object to the list
+            employees.add(employee);
         }
         reader.close();
     }
-    //method to get the data from a csv file
-    public List<String[]> getData() {
-        return data;
+
+    public List<Employee> getEmployees() {
+        return employees;
     }
 }
